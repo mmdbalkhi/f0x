@@ -1,0 +1,19 @@
+[project]
+name = "f0x"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "Komeil Parseh", email = "ahmdparsh129@gmail.com"},
+]
+dependencies = [
+    "flask>=3.0.3",
+    "nanoid>=2.0.0",
+    "APScheduler>=3.10.4",
+]
+requires-python = "==3.12.*"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = false
