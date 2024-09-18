@@ -3,7 +3,7 @@ import pathlib
 from datetime import datetime, timedelta
 
 from apscheduler.schedulers.background import BackgroundScheduler
-from flask import Flask, abort, request, send_file
+from flask import Flask, request, send_file
 from nanoid import generate
 from werkzeug.exceptions import RequestEntityTooLarge
 
@@ -11,11 +11,20 @@ app = Flask(__name__)
 uploads_dir = pathlib.Path("/home/mmdbalkhi/w/f0x/uploads")
 uploads_dir.mkdir(exist_ok=True)
 
-# 100 MB (100 * 1024 * 1024 bytes)
-app.config["MAX_CONTENT_LENGTH"] = 100 * 1024 * 1024
+# 5 MB (100 * 1024 * 1024 bytes) why hardcode?
+app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
 
-with open("README.md", "r") as f:
-    README = f.read()
+# HACK: not a good practice, but for simplicity that's hardcoded
+README = """<pre>f0x
+===========
+f0x is a minimal application designed to simplify file uploads and retrievals. It allows users to upload files and retrieve them via a unique URL.
+Uploading a File
+To upload a file, send a POST request to the <code>/</code> endpoint with the file included in the request body
+
+Example using curl
+                curl -F 'file=@/path/to/your/file' 127.0.0.1:5000
+gh: <a href=https://github.com/mmdbalkhi/f0x.git>https://github.com/mmdbalkhi/f0x.git</a> </pre>
+"""
 
 
 @app.errorhandler(RequestEntityTooLarge)
@@ -29,7 +38,7 @@ def main():
         if "file" not in request.files:
             return (
                 """File not found. Please send a file with the key 'file' in the form data.
-            hint: The curl command line requires an @ before local file names.\n""",
+            hint: The curl command line requires an @ before local file names.""",
                 400,
             )
 
@@ -45,7 +54,7 @@ def main():
             f"File uploaded successfully. Access it at {request.url_root}{file_path.name}"
         )
         return (
-            f"File uploaded successfully. Access it at {request.url_root}{file_path.name}\n",
+            f"File uploaded successfully. Access it at {request.url_root}{file_path.name}",
             200,
         )
 
