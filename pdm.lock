@@ -5,7 +5,7 @@
 groups = ["default"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:e141550f1d3201592b38ba09c170252025259ca098bdea52ae41e544c9f8991f"
+content_hash = "sha256:9e9cb042b7f76c7a7872ca445ecca92ecb3cb796749551b8890e5c85df25cb6f"
 
 [[metadata.targets]]
 requires_python = "==3.12.*"
@@ -85,6 +85,21 @@ files = [
 ]
 
 [[package]]
+name = "flask-tinydb"
+version = "1.3.0"
+requires_python = ">=3.9"
+summary = "flask-tinydb is a Flask extension that provides a TinyDB database."
+groups = ["default"]
+dependencies = [
+    "Flask>=2.1.0",
+    "tinydb>=4.0.0",
+]
+files = [
+    {file = "Flask_tinydb-1.3.0-py3-none-any.whl", hash = "sha256:c2e95b6fba80400203d6314c7e2d71afb6b09c6aae48e9901a7936912652d57d"},
+    {file = "flask_tinydb-1.3.0.tar.gz", hash = "sha256:da26c3bd92fe0a0092d97bd2bd43110537da94c85ca9f287c86187fc7e4f73f0"},
+]
+
+[[package]]
 name = "itsdangerous"
 version = "2.2.0"
 requires_python = ">=3.8"
@@ -158,6 +173,17 @@ groups = ["default"]
 files = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
     {file = "six-1.16.0.tar.gz", hash = "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926"},
+]
+
+[[package]]
+name = "tinydb"
+version = "4.8.2"
+requires_python = "<4.0,>=3.8"
+summary = "TinyDB is a tiny, document oriented database optimized for your happiness :)"
+groups = ["default"]
+files = [
+    {file = "tinydb-4.8.2-py3-none-any.whl", hash = "sha256:f97030ee5cbc91eeadd1d7af07ab0e48ceb04aa63d4a983adbaca4cba16e86c3"},
+    {file = "tinydb-4.8.2.tar.gz", hash = "sha256:f7dfc39b8d7fda7a1ca62a8dbb449ffd340a117c1206b68c50b1a481fb95181d"},
 ]
 
 [[package]]
