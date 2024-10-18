@@ -46,7 +46,7 @@ pdm run flask --app src/f0x/main.py run
 
 ## TODOs
 
-* [ ] check duplicate files and return the same URL
+* [X] check duplicate files and return the same URL
 * [ ] remove files after a certain period
 
 ## Contributing
