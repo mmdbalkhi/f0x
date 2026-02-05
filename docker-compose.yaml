@@ -1,6 +1,6 @@
 services:
   flask:
-    image: python:3.14-slim
+    image: docker.arvancloud.ir/python:3.14-slim
     container_name: f0x
     working_dir: /app
     volumes:
@@ -8,13 +8,8 @@ services:
     command: >
       sh -c "
       pip install --no-cache-dir flask gunicorn &&
-      gunicorn
-        --workers 2
-        --bind 0.0.0.0:8000
-        --access-logfile -
-        --error-logfile -
-        main:app
+      gunicorn --workers 2 --bind 0.0.0.0:8000 --access-logfile - --error-logfile - main:app
       "
     restart: unless-stopped
-    expose:
-      - "8000"
+    ports:
+     - "127.0.0.1:8000:8000"

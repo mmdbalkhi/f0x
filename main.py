@@ -1,12 +1,17 @@
 import hashlib
+import os
 import random
 import sqlite3
 import string
-import os
+
 from flask import Flask, Response, abort, request
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 app = Flask(__name__)
 DB_PATH = "pastes.db"
+
+
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1)
 
 
 def get_db():
@@ -50,20 +55,12 @@ def canonicalize(text: str) -> str:
     return text
 
 
-@app.route("/", methods=["POST"])
+@app.route("/", methods=["POST", "GET"])
 def post_paste():
-    if "file" not in request.files:
-        abort(400)
+    if request.method == "GET":
+        return "there is nothing for u!\n", 404
 
-    file = request.files["file"]
-    if not file.filename:
-        abort(400)
-
-    raw = file.read().decode("utf-8")
-
-    _, ext = os.path.splitext(file.filename)
-    ext = ext if ext else ""
-
+    raw = request.get_data(as_text=True)
     canonical = canonicalize(raw)
     h = hashlib.sha256(canonical.encode("utf-8")).hexdigest()
 
@@ -77,7 +74,7 @@ def post_paste():
         short_id = existing["short_id"]
     else:
         while True:
-            short_id = generate_short_id() + ext
+            short_id = generate_short_id()
             collision_check = db.execute(
                 "SELECT 1 FROM pastes WHERE short_id = ?", (short_id,)
             ).fetchone()
@@ -91,7 +88,7 @@ def post_paste():
         db.commit()
 
     db.close()
-    return Response(short_id + "\n", mimetype="text/plain")
+    return Response(request.url_root + short_id + "\n", mimetype="text/plain")
 
 
 @app.route("/<short_id>", methods=["GET"])
@@ -109,5 +106,9 @@ def get_paste(short_id):
 
 
 if __name__ == "__main__":
-    init_db()
     app.run(host="127.0.0.1", port=5000, debug=True)
+
+
+@app.before_first_request
+def _init():
+    init_db()
