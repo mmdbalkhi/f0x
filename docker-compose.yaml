@@ -1,0 +1,20 @@
+services:
+  flask:
+    image: python:3.14-slim
+    container_name: f0x
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: >
+      sh -c "
+      pip install --no-cache-dir flask gunicorn &&
+      gunicorn
+        --workers 2
+        --bind 0.0.0.0:8000
+        --access-logfile -
+        --error-logfile -
+        main:app
+      "
+    restart: unless-stopped
+    expose:
+      - "8000"

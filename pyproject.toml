@@ -1,0 +1,29 @@
+[project]
+name = "f0x"
+version = "0.1.0"
+description = "Yet an other clipbin"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "flask>=3.1.2",
+    "python-dotenv>=1.2.1",
+]
+
+
+[tool.uv]
+package = true
+
+[dependency-groups]
+dev = [
+    "ruff>=0.15.0",
+]
+pre-commit = [
+    "pre-commit>=4.5.1",
+    "pre-commit-uv>=4.2.0",
+]
+test = [
+    "pytest>=9.0.2",
+]
+typing = [
+    "mypy>=1.19.1",
+]
